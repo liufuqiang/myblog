@@ -1,7 +1,7 @@
 ---
 title: "Go语言世界里的HTTP2的探索"
 date: 2018-08-16T10:26:13+08:00
-draft: true
+draft: false
 ---
 
 Go语言的标准库HTTP默认支持HTTP/2，它有非常多的文档和非常棒的代码实例。 在这篇文章里我会首先介绍一些go的HTTP/2的服务端新特性，并介绍客户端如何去使用这些新的特性。 之后我会推介一下[h2conn](https://github.com/posener/h2conn)项目，这是一个可以比较简单优雅的实现HTTP/2全双工通讯的工具库。
