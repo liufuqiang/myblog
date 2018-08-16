@@ -1,0 +1,4 @@
+baseURL = "http://example.org/"
+languageCode = "zh-ch"
+title = "技术闲谈"
+theme = "ananke"
