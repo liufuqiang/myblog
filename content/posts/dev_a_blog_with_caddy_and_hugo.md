@@ -2,10 +2,9 @@
 title: "利用hugo+caddy快速搭建一个简单的博客系统"
 date: 2018-08-16T17:50:07+08:00
 ---
-
 ## 技术选型介绍
-[hugo](https://gohugo.io/) 是一个非常简单的基于markdown生成博客的系统，是go语言开发的。
-[caddy](https://caddyserver.com/) 是一个简单易用的webserver服务，很好的支持了H2，尤其是基于[Let's Encrypt](https://letsencrypt.org/)的 自动签发证书的功能。
+[hugo](https://gohugo.io/) 是一个非常简单的基于markdown生成博客的系统，是go语言开发的博客系统。
+[caddy](https://caddyserver.com/) 是一个简单易用的webserver服务，很好的支持了H2，尤其是基于[Let's Encrypt](https://letsencrypt.org/)的 自动签发证书的功能，让你用的毫无压力。
 
 ## 安装 caddy
 安装方式有多种，可以到[官网](https://caddyserver.com/)上看，这里我们介绍3种安装方式：一个是用官方发布的二进制包安装，一个用Go的方式安装的步骤,一个是在官网的自助下载页面定制插件下载。
@@ -123,3 +122,55 @@ https://blog.thor.today
 整个过程毫无压力，唯一需要你做的就是提供一个邮箱，而且邮箱也不是必须要填的。之后，一个web服务就跑起来了，打开网站既可以看到你的网站是https的，同时也是h2协议了。
 > 注意你需要先具备一个域名，并且解析到这个机器上，因为Let's Encrypt签署证书的过程中会通过域名和443/80端口来和你的网站做通讯。
 
+到此，caddy的安装就算完成了。下面我们介绍下hugo的安装。
+
+## hugo安装
+安装方式有很多种，可以到[官方安装指导](https://gohugo.io/getting-started/installing/)了解更多安装方式，我们选择一个Linux系统的安装方式(从 官方项目的github release下载对应二进制包）：
+```
+wget https://github.com/gohugoio/hugo/releases/download/v0.46/hugo_0.46_Linux-64bit.tar.gz
+tar xvfz hugo_0.46_Linux-64bit.tar.gz
+cp hugo /usr/local/bin/
+```
+执行 hugo version 可以测试下是否安装成功
+```
+Hugo Static Site Generator v0.46 linux/amd64 BuildDate: 2018-08-01T09:00:55Z
+```
+
+## caddy与hugo结合
+利用caddy + hugo、git插件 可以实现自动更新博客的功能。
+用我博客站的配置来介绍下吧。先看配置文件：
+```
+https://blog.thor.today {
+    tls user@xx.com
+    gzip
+    root /da1/liufuqiang/web/public
+    git github.com/liufuqiang/myblog.git {
+        path /da1/liufuqiang/myblog
+        then hugo --destination=/da1/liufuqiang/web/public
+        hook /webhook **********
+        hook_type github
+        clone_args --recursive
+        pull_args --recurse-submodules
+    }
+    hugo
+}
+```
+
+重点关注下 git 模块的配置：
+- path: git代码拉取下来的目标位置
+- then hugo --destination: hugo解析md静态化后的文件的目标位置，注意这里要和我们的web root保持一致。
+- hook ：这里是为了实现能够监听github上的代码变更事件定义的hook api。这块需要到github对应的项目里，在Settings->Webhooks里去配置一个webhook，本处星号是配置的密码，两边要保存一致。
+> 这里有个git版本的问题需要注意，因为就centos6/7而言，默认安装（yum里带的）git的版本都比较低，如我的是centos6，git是1.7的，不支持recurse-submodules的拉取代码参数，会报错。这里可以需要对git的版本做下更新，文章后边会有介绍。
+
+配置好Caddayfile后，就可以直接启动服务，一个依赖githum+markdown机制切可以自动更新的博客站就完美搞定了。
+
+
+
+### 快捷更新git版本的方法
+传统的源码安装非常耗时，我们还是选择用yum方式来安装，如下：
+```
+yum remove git
+yum install epel-release
+yum install https://centos6.iuscommunity.org/ius-release.rpm 
+yum install git2u
+```
