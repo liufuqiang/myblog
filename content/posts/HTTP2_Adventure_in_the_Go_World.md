@@ -1,8 +1,12 @@
 ---
-title: "Go语言世界里的HTTP2的探索"
+title: "[译]Go语言世界里的HTTP2的探索"
 date: 2018-08-16T10:26:13+08:00
 draft: false
 ---
+
+#### 原文出处
+[https://posener.github.io/http2/](https://posener.github.io/http2/)
+
 
 Go语言的标准库HTTP默认支持HTTP/2，它有非常多的文档和非常棒的代码实例。 在这篇文章里我会首先介绍一些go的HTTP/2的服务端新特性，并介绍客户端如何去使用这些新的特性。 之后我会推介一下[h2conn](https://github.com/posener/h2conn)项目，这是一个可以比较简单优雅的实现HTTP/2全双工通讯的工具库。
 
@@ -420,9 +424,6 @@ func echo(w http.ResponseWriter, r *http.Request) {
 
 ## 总结
 Go 启用HTTP/2连接可以支持服务端推送和全双工通讯，同时它也向下兼容可以支持标准库实现的HTTP/1.1协议的TLS服务，这个是非常棒的。至于标准库的HTTP的client端不支持服务端推送，但它支持全双工通讯。本文中我介绍了一个使开发全双工通讯更优雅高效的工具库，可以在[posener/h2conn](https://github.com/posener/h2conn)找到它。
-
-#### 原文自处
-[https://posener.github.io/http2/](https://posener.github.io/http2/)
 
 
 
