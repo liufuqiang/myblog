@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="zh_CN">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <title>技术闲谈  | 利用hugo&#43;caddy快速搭建一个简单的博客系统</title>
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="generator" content="Hugo 0.42.1" />
+    
+    
+      <META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
+    
+
+    
+    
+      <link href="/dist/css/app.ab4b67a3ea25990fa8279f3b7ef08b61.css" rel="stylesheet">
+    
+
+    
+
+    
+      
+    
+
+    
+
+    <meta property="og:title" content="利用hugo&#43;caddy快速搭建一个简单的博客系统" />
+<meta property="og:description" content="技术选型介绍 hugo 是一个非常简单的基于markdown生成博客的系统，是go语言开发的博客系统。 caddy 是一个简单易用的webserver服务，很好的支持了H2，尤其是基于Let&rsquo;s Encrypt的 自动签发证书的功能，让你用的毫无压力。
+安装 caddy 安装方式有多种，可以到官网上看，这里我们介绍3种安装方式：一个是用官方发布的二进制包安装，一个用Go的方式安装的步骤,一个是在官网的自助下载页面定制插件下载。
+二进制包安装： wget https://github.com/mholt/caddy/releases/download/v0.11.0/caddy_v0.11.0_linux_amd64.tar.gz tar xvfz caddy_v0.11.0_linux_amd64.tar.gz cp caddy /usr/bin/  go源码安装 go get github.com/mholt/caddy/caddy go get github.com/caddyserver/builds cd $GOPATH/src/github.com/mholt/caddy/caddy go run build.go   这里有个要注意的是，caddy为了支持多平台的build配置，把普通的go build 升级为单独用build.go的方式进行包装。 安装好后，确保caddy在Path可找到的地方，这里因为我们是自己build的源码，需要自己把caddy二进制文件放到PATH中的某个目录下。
+ 官方定制插件下载 在官方的下载页面可以根据自己的操作系统、需要的插件种类、License类型等定制下载包。 这里需要注意的是license我们选择person，因为不想付费哈。 插件选择太多或选择了某些插件会导致服务端500错误，这个比较坑，希望官方早点解决这个bug。 根据本文的主题需要，我们这里选择http.hugo 和http.git两个插件。 &gt; 小技巧： 如果你清楚需要什么插件，可以直接用命令行方式进行下载安装即可： curl https://getcaddy.com | bash -s personal http.git,http.hugo
+[liufuqiang@cloud liufuqiang]$ curl https://getcaddy.com | bash -s personal http.git,http.hugo Downloading Caddy for linux/amd64 (personal license)." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://blog.thor.today/posts/dev_a_blog_with_caddy_and_hugo/" />
+
+
+
+<meta property="article:published_time" content="2018-08-16T17:50:07&#43;08:00"/>
+
+<meta property="article:modified_time" content="2018-08-16T17:50:07&#43;08:00"/>
+
+
+
+
+
+
+
+
+
+
+
+<meta itemprop="name" content="利用hugo&#43;caddy快速搭建一个简单的博客系统">
+<meta itemprop="description" content="技术选型介绍 hugo 是一个非常简单的基于markdown生成博客的系统，是go语言开发的博客系统。 caddy 是一个简单易用的webserver服务，很好的支持了H2，尤其是基于Let&rsquo;s Encrypt的 自动签发证书的功能，让你用的毫无压力。
+安装 caddy 安装方式有多种，可以到官网上看，这里我们介绍3种安装方式：一个是用官方发布的二进制包安装，一个用Go的方式安装的步骤,一个是在官网的自助下载页面定制插件下载。
+二进制包安装： wget https://github.com/mholt/caddy/releases/download/v0.11.0/caddy_v0.11.0_linux_amd64.tar.gz tar xvfz caddy_v0.11.0_linux_amd64.tar.gz cp caddy /usr/bin/  go源码安装 go get github.com/mholt/caddy/caddy go get github.com/caddyserver/builds cd $GOPATH/src/github.com/mholt/caddy/caddy go run build.go   这里有个要注意的是，caddy为了支持多平台的build配置，把普通的go build 升级为单独用build.go的方式进行包装。 安装好后，确保caddy在Path可找到的地方，这里因为我们是自己build的源码，需要自己把caddy二进制文件放到PATH中的某个目录下。
+ 官方定制插件下载 在官方的下载页面可以根据自己的操作系统、需要的插件种类、License类型等定制下载包。 这里需要注意的是license我们选择person，因为不想付费哈。 插件选择太多或选择了某些插件会导致服务端500错误，这个比较坑，希望官方早点解决这个bug。 根据本文的主题需要，我们这里选择http.hugo 和http.git两个插件。 &gt; 小技巧： 如果你清楚需要什么插件，可以直接用命令行方式进行下载安装即可： curl https://getcaddy.com | bash -s personal http.git,http.hugo
+[liufuqiang@cloud liufuqiang]$ curl https://getcaddy.com | bash -s personal http.git,http.hugo Downloading Caddy for linux/amd64 (personal license).">
+
+
+<meta itemprop="datePublished" content="2018-08-16T17:50:07&#43;08:00" />
+<meta itemprop="dateModified" content="2018-08-16T17:50:07&#43;08:00" />
+<meta itemprop="wordCount" content="465">
+
+
+
+<meta itemprop="keywords" content="" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="利用hugo&#43;caddy快速搭建一个简单的博客系统"/>
+<meta name="twitter:description" content="技术选型介绍 hugo 是一个非常简单的基于markdown生成博客的系统，是go语言开发的博客系统。 caddy 是一个简单易用的webserver服务，很好的支持了H2，尤其是基于Let&rsquo;s Encrypt的 自动签发证书的功能，让你用的毫无压力。
+安装 caddy 安装方式有多种，可以到官网上看，这里我们介绍3种安装方式：一个是用官方发布的二进制包安装，一个用Go的方式安装的步骤,一个是在官网的自助下载页面定制插件下载。
+二进制包安装： wget https://github.com/mholt/caddy/releases/download/v0.11.0/caddy_v0.11.0_linux_amd64.tar.gz tar xvfz caddy_v0.11.0_linux_amd64.tar.gz cp caddy /usr/bin/  go源码安装 go get github.com/mholt/caddy/caddy go get github.com/caddyserver/builds cd $GOPATH/src/github.com/mholt/caddy/caddy go run build.go   这里有个要注意的是，caddy为了支持多平台的build配置，把普通的go build 升级为单独用build.go的方式进行包装。 安装好后，确保caddy在Path可找到的地方，这里因为我们是自己build的源码，需要自己把caddy二进制文件放到PATH中的某个目录下。
+ 官方定制插件下载 在官方的下载页面可以根据自己的操作系统、需要的插件种类、License类型等定制下载包。 这里需要注意的是license我们选择person，因为不想付费哈。 插件选择太多或选择了某些插件会导致服务端500错误，这个比较坑，希望官方早点解决这个bug。 根据本文的主题需要，我们这里选择http.hugo 和http.git两个插件。 &gt; 小技巧： 如果你清楚需要什么插件，可以直接用命令行方式进行下载安装即可： curl https://getcaddy.com | bash -s personal http.git,http.hugo
+[liufuqiang@cloud liufuqiang]$ curl https://getcaddy.com | bash -s personal http.git,http.hugo Downloading Caddy for linux/amd64 (personal license)."/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+    
+   
+  
+
+  <header>
+    <div class="bg-black">
+      <nav class="pv3 ph3 ph4-ns" role="navigation">
+  <div class="flex-l justify-between items-center center">
+    <a href="https://blog.thor.today/" class="f3 fw2 hover-white no-underline white-90 dib">
+      技术闲谈
+    </a>
+    <div class="flex-l items-center">
+      
+      
+
+
+
+
+
+
+
+
+    </div>
+  </div>
+</nav>
+
+    </div>
+  </header>
+
+
+
+    <main class="pb7" role="main">
+      
+  <article class="flex-l flex-wrap justify-between mw8 center ph3 ph0-l">
+
+    <header class="mt4 w-100">
+      <p class="f6 b helvetica tracked">
+          
+        POSTS
+      </p>
+      <h1 class="f1 athelas mb1">利用hugo&#43;caddy快速搭建一个简单的博客系统</h1>
+      
+      <time class="f6 mv4 dib tracked" datetime="2018-08-16T17:50:07&#43;08:00">August 16, 2018</time>
+    </header>
+
+    <main class="nested-copy-line-height lh-copy serif f4 nested-links nested-img mid-gray pr4-l w-two-thirds-l">
+
+<h2 id="技术选型介绍">技术选型介绍</h2>
+
+<p><a href="https://gohugo.io/">hugo</a> 是一个非常简单的基于markdown生成博客的系统，是go语言开发的博客系统。
+<a href="https://caddyserver.com/">caddy</a> 是一个简单易用的webserver服务，很好的支持了H2，尤其是基于<a href="https://letsencrypt.org/">Let&rsquo;s Encrypt</a>的 自动签发证书的功能，让你用的毫无压力。</p>
+
+<h2 id="安装-caddy">安装 caddy</h2>
+
+<p>安装方式有多种，可以到<a href="https://caddyserver.com/">官网</a>上看，这里我们介绍3种安装方式：一个是用官方发布的二进制包安装，一个用Go的方式安装的步骤,一个是在官网的自助下载页面定制插件下载。</p>
+
+<h3 id="二进制包安装">二进制包安装：</h3>
+
+<pre><code>wget https://github.com/mholt/caddy/releases/download/v0.11.0/caddy_v0.11.0_linux_amd64.tar.gz
+tar xvfz caddy_v0.11.0_linux_amd64.tar.gz
+cp caddy /usr/bin/
+</code></pre>
+
+<h3 id="go源码安装">go源码安装</h3>
+
+<pre><code>go get github.com/mholt/caddy/caddy 
+go get github.com/caddyserver/builds
+cd $GOPATH/src/github.com/mholt/caddy/caddy
+go run build.go
+</code></pre>
+
+<blockquote>
+<p>这里有个要注意的是，caddy为了支持多平台的build配置，把普通的go build 升级为单独用build.go的方式进行包装。
+安装好后，确保caddy在Path可找到的地方，这里因为我们是自己build的源码，需要自己把caddy二进制文件放到PATH中的某个目录下。</p>
+</blockquote>
+
+<h3 id="官方定制插件下载">官方定制插件下载</h3>
+
+<p>在官方的下载页面可以根据自己的操作系统、需要的插件种类、License类型等定制下载包。 这里需要注意的是license我们选择person，因为不想付费哈。 插件选择太多或选择了某些插件会导致服务端500错误，这个比较坑，希望官方早点解决这个bug。 根据本文的主题需要，我们这里选择http.hugo 和http.git两个插件。
+&gt; 小技巧： 如果你清楚需要什么插件，可以直接用命令行方式进行下载安装即可： <code>curl https://getcaddy.com | bash -s personal http.git,http.hugo</code></p>
+
+<pre><code>[liufuqiang@cloud liufuqiang]$ curl https://getcaddy.com | bash -s personal http.git,http.hugo
+Downloading Caddy for linux/amd64 (personal license)...
+Download verification OK
+Extracting...
+Backing up /usr/bin/caddy to /usr/bin/caddy_old
+(Password may be required.)
+[sudo] password for liufuqiang:
+Putting caddy in /usr/local/bin (may require password)
+Caddy 0.11.0 (non-commercial use only)
+Successfully installed
+</code></pre>
+
+<p>我们可以执行下 caddy -h 测试安装是否成功。</p>
+
+<pre><code>[liufuqiang:~]$caddy -h
+Usage of caddy:
+  -agree
+    	Agree to the CA's Subscriber Agreement
+  -ca string
+    	URL to certificate authority's ACME server directory (default &quot;https://acme-v02.api.letsencrypt.org/directory&quot;)
+  -catimeout duration
+    	Default ACME CA HTTP timeout
+  -conf string
+    	Caddyfile to load (default &quot;Caddyfile&quot;)
+  -cpu string
+    	CPU cap (default &quot;100%&quot;)
+  -disable-http-challenge
+    	Disable the ACME HTTP challenge
+  -disable-tls-sni-challenge
+    	Disable the ACME TLS-SNI challenge
+  -disabled-metrics string
+    	Comma-separated list of telemetry metrics to disable
+  -email string
+    	Default ACME CA account email address
+  -env string
+    	Path to file with environment variables to load in KEY=VALUE format
+  -grace duration
+    	Maximum duration of graceful shutdown (default 5s)
+  -host string
+    	Default host
+  -http-port string
+    	Default port to use for HTTP (default &quot;80&quot;)
+  -http2
+    	Use HTTP/2 (default true)
+  -https-port string
+    	Default port to use for HTTPS (default &quot;443&quot;)
+  -log string
+    	Process log file
+  -pidfile string
+    	Path to write pid file
+  -plugins
+    	List installed plugins
+  -port string
+    	Default port (default &quot;2015&quot;)
+  -quic
+    	Use experimental QUIC
+  -quiet
+    	Quiet mode (no initialization output)
+  -revoke string
+    	Hostname for which to revoke the certificate
+  -root string
+    	Root path of default site (default &quot;.&quot;)
+  -type string
+    	Type of server to run (default &quot;http&quot;)
+  -validate
+    	Parse the Caddyfile but do not start the server
+  -version
+    	Show version
+</code></pre>
+
+<p>安装好后就可以非常便捷的使用caddy了，先演示一个自动签署CA的过程吧，
+&gt; 因为普通账号启动程序是不能启动1024以下的端口的，为了让caddy可以直接启动80/443端口，我们用setcap对这个程序进行设置： <code>sudo setcap 'cap_net_bind_service=+ep' /usr/local/bin/caddy</code></p>
+
+<pre><code>[liufuqiang@cloud liufuqiang]$ caddy -host blog.thor.today
+[sudo] password for liufuqiang:
+Activating privacy features...
+
+Your sites will be served over HTTPS automatically using Let's Encrypt.
+By continuing, you agree to the Let's Encrypt Subscriber Agreement at:
+  https://letsencrypt.org/documents/LE-SA-v1.2-November-15-2017.pdf
+Please enter your email address to signify agreement and to be notified
+in case of issues. You can leave it blank, but we don't recommend it.
+  Email address: liufuqiang0123@gmail.com
+done.
+http://blog.thor.today
+https://blog.thor.today
+</code></pre>
+
+<p>整个过程毫无压力，唯一需要你做的就是提供一个邮箱，而且邮箱也不是必须要填的。之后，一个web服务就跑起来了，打开网站既可以看到你的网站是https的，同时也是h2协议了。
+&gt; 注意你需要先具备一个域名，并且解析到这个机器上，因为Let&rsquo;s Encrypt签署证书的过程中会通过域名和443/80端口来和你的网站做通讯。</p>
+
+<p>到此，caddy的安装就算完成了。下面我们介绍下hugo的安装。</p>
+
+<h2 id="hugo安装">hugo安装</h2>
+
+<p>安装方式有很多种，可以到<a href="https://gohugo.io/getting-started/installing/">官方安装指导</a>了解更多安装方式，我们选择一个Linux系统的安装方式(从 官方项目的github release下载对应二进制包）：</p>
+
+<pre><code>wget https://github.com/gohugoio/hugo/releases/download/v0.46/hugo_0.46_Linux-64bit.tar.gz
+tar xvfz hugo_0.46_Linux-64bit.tar.gz
+cp hugo /usr/local/bin/
+</code></pre>
+
+<p>执行 hugo version 可以测试下是否安装成功</p>
+
+<pre><code>Hugo Static Site Generator v0.46 linux/amd64 BuildDate: 2018-08-01T09:00:55Z
+</code></pre>
+
+<h2 id="caddy与hugo结合">caddy与hugo结合</h2>
+
+<p>利用caddy + hugo、git插件 可以实现自动更新博客的功能。
+用我博客站的配置来介绍下吧。先看配置文件：</p>
+
+<pre><code>https://blog.thor.today {
+    tls user@xx.com
+    gzip
+    root /da1/liufuqiang/web/public
+    git github.com/liufuqiang/myblog.git {
+        path /da1/liufuqiang/myblog
+        then hugo --destination=/da1/liufuqiang/web/public
+        hook /webhook **********
+        hook_type github
+        clone_args --recursive
+        pull_args --recurse-submodules
+    }
+    hugo
+}
+</code></pre>
+
+<p>重点关注下 git 模块的配置：
+- path: git代码拉取下来的目标位置
+- then hugo &ndash;destination: hugo解析md静态化后的文件的目标位置，注意这里要和我们的web root保持一致。
+- hook ：这里是为了实现能够监听github上的代码变更事件定义的hook api。这块需要到github对应的项目里，在Settings-&gt;Webhooks里去配置一个webhook，本处星号是配置的密码，两边要保存一致。
+&gt; 这里有个git版本的问题需要注意，因为就centos6/7而言，默认安装（yum里带的）git的版本都比较低，如我的是centos6，git是1.7的，不支持recurse-submodules的拉取代码参数，会报错。这里可以需要对git的版本做下更新，文章后边会有介绍。</p>
+
+<p>配置好Caddayfile后，就可以直接启动服务，一个依赖githum+markdown机制切可以自动更新的博客站就完美搞定了。</p>
+
+<h3 id="快捷更新git版本的方法">快捷更新git版本的方法</h3>
+
+<p>传统的源码安装非常耗时，我们还是选择用yum方式来安装，如下：</p>
+
+<pre><code>yum remove git
+yum install epel-release
+yum install https://centos6.iuscommunity.org/ius-release.rpm 
+yum install git2u
+</code></pre>
+<ul class="pa0">
+  
+</ul>
+<div class="mt6">
+        
+      </div>
+    </main>
+
+    <aside class="w-30-l mt6-l">
+
+
+
+
+</aside>
+
+  </article>
+
+    </main>
+    <footer class="bg-near-black bottom-0 w-100 pa3" role="contentinfo">
+  <div class="flex justify-between">
+  <a class="f4 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3" href="https://blog.thor.today/" >
+    &copy; 2018 技术闲谈
+  </a>
+  
+
+
+
+
+
+
+
+
+  </div>
+</footer>
+
+    
+
+  <script src="/dist/js/app.3fc0f988d21662902933.js"></script>
+
+
+  </body>
+</html>

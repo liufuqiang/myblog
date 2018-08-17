@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="zh_CN">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <title>技术闲谈 </title>
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="generator" content="Hugo 0.42.1" />
+    
+    
+      <META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
+    
+
+    
+    
+      <link href="/dist/css/app.ab4b67a3ea25990fa8279f3b7ef08b61.css" rel="stylesheet">
+    
+
+    
+
+    
+      
+    
+
+    
+      <link href="https://blog.thor.today/posts/index.xml" rel="alternate" type="application/rss+xml" title="技术闲谈" />
+      <link href="https://blog.thor.today/posts/index.xml" rel="feed" type="application/rss+xml" title="技术闲谈" />
+    
+
+    <meta property="og:title" content="Posts" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://blog.thor.today/posts/" />
+
+
+
+<meta property="og:updated_time" content="2018-08-16T17:50:07&#43;08:00"/>
+
+
+
+
+
+
+
+
+
+
+<meta itemprop="name" content="Posts">
+<meta itemprop="description" content="">
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Posts"/>
+<meta name="twitter:description" content=""/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+    
+
+  
+  
+  <header class="cover bg-top" style="background-image: url('https://blog.thor.today/images/gohugo-default-sample-hero-image.jpg');">
+    <div class="bg-black-60">
+      <nav class="pv3 ph3 ph4-ns" role="navigation">
+  <div class="flex-l justify-between items-center center">
+    <a href="https://blog.thor.today/" class="f3 fw2 hover-white no-underline white-90 dib">
+      技术闲谈
+    </a>
+    <div class="flex-l items-center">
+      
+      
+
+
+
+
+
+
+
+
+    </div>
+  </div>
+</nav>
+
+      <div class="tc-l pv4 pv6-l ph3 ph4-ns">
+        <h1 class="f2 f-subheadline-l fw2 white-90 mb0 lh-title">
+          Posts
+        </h1>
+        
+      </div>
+    </div>
+  </header>
+
+
+    <main class="pb7" role="main">
+      
+  <article class="pa3 pa4-ns nested-copy-line-height nested-img">
+  <main class="cf ph3 ph5-l pv3 pv4-l f4 tc-l center measure-wide lh-copy mid-gray"></main>
+    <section class="flex-ns flex-wrap justify-around mt5">
+      
+        <div class="relative w-100 w-30-l mb4 bg-white"><div class="relative w-100 mb4 bg-white nested-copy-line-height">
+  <div class="bg-white mb3 pa4 gray overflow-hidden">
+    <span class="f6 db">Posts</span>
+    <h1 class="f3 near-black">
+      <a href="/posts/dev_a_blog_with_caddy_and_hugo/" class="link black dim">
+        利用hugo&#43;caddy快速搭建一个简单的博客系统
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      技术选型介绍 hugo 是一个非常简单的基于markdown生成博客的系统，是go语言开发的博客系统。 caddy 是一个简单易用的webserver服务，很好的支持了H2，尤其是基于Let&rsquo;s Encrypt的 自动签发证书的功能，让你用的毫无压力。
+安装 caddy 安装方式有多种，可以到官网上看，这里我们介绍3种安装方式：一个是用官方发布的二进制包安装，一个用Go的方式安装的步骤,一个是在官网的自助下载页面定制插件下载。
+二进制包安装： wget https://github.com/mholt/caddy/releases/download/v0.11.0/caddy_v0.11.0_linux_amd64.tar.gz tar xvfz caddy_v0.11.0_linux_amd64.tar.gz cp caddy /usr/bin/  go源码安装 go get github.com/mholt/caddy/caddy go get github.com/caddyserver/builds cd $GOPATH/src/github.com/mholt/caddy/caddy go run build.go   这里有个要注意的是，caddy为了支持多平台的build配置，把普通的go build 升级为单独用build.go的方式进行包装。 安装好后，确保caddy在Path可找到的地方，这里因为我们是自己build的源码，需要自己把caddy二进制文件放到PATH中的某个目录下。
+ 官方定制插件下载 在官方的下载页面可以根据自己的操作系统、需要的插件种类、License类型等定制下载包。 这里需要注意的是license我们选择person，因为不想付费哈。 插件选择太多或选择了某些插件会导致服务端500错误，这个比较坑，希望官方早点解决这个bug。 根据本文的主题需要，我们这里选择http.hugo 和http.git两个插件。 &gt; 小技巧： 如果你清楚需要什么插件，可以直接用命令行方式进行下载安装即可： curl https://getcaddy.com | bash -s personal http.git,http.hugo
+[liufuqiang@cloud liufuqiang]$ curl https://getcaddy.com | bash -s personal http.git,http.hugo Downloading Caddy for linux/amd64 (personal license).
+    </div>
+  </div>
+</div>
+</div>
+      
+        <div class="relative w-100 w-30-l mb4 bg-white"><div class="relative w-100 mb4 bg-white nested-copy-line-height">
+  <div class="bg-white mb3 pa4 gray overflow-hidden">
+    <span class="f6 db">Posts</span>
+    <h1 class="f3 near-black">
+      <a href="/posts/http2_adventure_in_the_go_world/" class="link black dim">
+        Go语言世界里的HTTP2的探索
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      Go语言的标准库HTTP默认支持HTTP/2，它有非常多的文档和非常棒的代码实例。 在这篇文章里我会首先介绍一些go的HTTP/2的服务端新特性，并介绍客户端如何去使用这些新的特性。 之后我会推介一下h2conn项目，这是一个可以比较简单优雅的实现HTTP/2全双工通讯的工具库。
+HTTP/2 服务端 首先让我们用Go语言搭建一个HTTP/2的服务端吧！ 根据HTTP2文档描述的，所有的事情都是自动配置的，我们甚至不需要导入go的标准库 http2包： &gt; http2包是一个底层实现，它很少被人直接拿来使用。很多使用者会通过自动使用net/http包来间接的使用它。
+HTTP/2是强制使用TLS(传送安全层)的。 为了能够完成需求我们需要一个私钥（private key)和一个证书（certificate)。 在Linux上，产生私钥的方法如下。运行以下命令并且按照提示执行操作即可。
+openssl req -newkey rsa:2048 -nodes -keyout server.key -x509 -days 365 -out server.crt  这个命令会产生2个文件： server.key和server.crt 1. server.key: 包含我们服务端的私钥，在线上产品里请务必保持此文件的安全性和隐私性。这个key会用来对HTTPS的响应内容做加密处理，加密的内容可以用服务端的公钥（public key)解密。 2. server.crt: 服务端的证书。该文件可以代表着服务端的身份标识，并包含了服务端的公钥。这个文件可以被公开分享，它的内容也会在服务端和客户端做TLS握手的时候发送给客户端。
+现在，我们看下服务端的实现代码，我们会使用go的标准库 HTTP server， 并依赖刚刚产生的SSL文件（私钥和正式）启用TLS模式。
+package main import ( &quot;log&quot; &quot;net/http&quot; ) func main() { // 创建一个 8000端口的服务 // 方式如同创建 HTTP/1.1 srv := &amp;http.Server{Addr: &quot;:8000&quot;, Handler: http.HandlerFunc(handle)} // 因为我们使用的HTTP/2,所以需要用TLS启动服务 // 和用 HTTP/1.1 启用 TLS 连接一样 log.
+    </div>
+  </div>
+</div>
+</div>
+      
+    </section>
+</article>
+
+    </main>
+    <footer class="bg-near-black bottom-0 w-100 pa3" role="contentinfo">
+  <div class="flex justify-between">
+  <a class="f4 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3" href="https://blog.thor.today/" >
+    &copy; 2018 技术闲谈
+  </a>
+  
+
+
+
+
+
+
+
+
+  </div>
+</footer>
+
+    
+
+  <script src="/dist/js/app.3fc0f988d21662902933.js"></script>
+
+
+  </body>
+</html>
