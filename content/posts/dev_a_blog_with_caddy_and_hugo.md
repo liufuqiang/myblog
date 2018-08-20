@@ -1,6 +1,7 @@
 ---
 title: "利用hugo+caddy快速搭建一个简单的博客系统"
 date: 2018-08-16T17:50:07+08:00
+tags: ["博客","hugo","caddy"]
 ---
 ## 技术选型介绍
 [hugo](https://gohugo.io/) 是一个非常简单的基于markdown生成博客的系统，是go语言开发的博客系统。
@@ -9,14 +10,14 @@ date: 2018-08-16T17:50:07+08:00
 ## 安装 caddy
 安装方式有多种，可以到[官网](https://caddyserver.com/)上看，这里我们介绍3种安装方式：一个是用官方发布的二进制包安装，一个用Go的方式安装的步骤,一个是在官网的自助下载页面定制插件下载。
 ### 二进制包安装：
-```
+```bash
 wget https://github.com/mholt/caddy/releases/download/v0.11.0/caddy_v0.11.0_linux_amd64.tar.gz
 tar xvfz caddy_v0.11.0_linux_amd64.tar.gz
 cp caddy /usr/bin/
 ```
 ### go源码安装
 
-```
+```bash
 go get github.com/mholt/caddy/caddy 
 go get github.com/caddyserver/builds
 cd $GOPATH/src/github.com/mholt/caddy/caddy
@@ -29,7 +30,7 @@ go run build.go
 在官方的下载页面可以根据自己的操作系统、需要的插件种类、License类型等定制下载包。 这里需要注意的是license我们选择person，因为不想付费哈。 插件选择太多或选择了某些插件会导致服务端500错误，这个比较坑，希望官方早点解决这个bug。 根据本文的主题需要，我们这里选择http.hugo 和http.git两个插件。
 > 小技巧： 如果你清楚需要什么插件，可以直接用命令行方式进行下载安装即可： ```  curl https://getcaddy.com | bash -s personal http.git,http.hugo```
 
-```
+```golang
 [liufuqiang@cloud liufuqiang]$ curl https://getcaddy.com | bash -s personal http.git,http.hugo
 Downloading Caddy for linux/amd64 (personal license)...
 Download verification OK
@@ -44,7 +45,7 @@ Successfully installed
 
 
 我们可以执行下 caddy -h 测试安装是否成功。
-```
+```bash
 [liufuqiang:~]$caddy -h
 Usage of caddy:
   -agree
@@ -104,7 +105,7 @@ Usage of caddy:
 安装好后就可以非常便捷的使用caddy了，先演示一个自动签署CA的过程吧，
 > 因为普通账号启动程序是不能启动1024以下的端口的，为了让caddy可以直接启动80/443端口，我们用setcap对这个程序进行设置： ``` sudo setcap 'cap_net_bind_service=+ep' /usr/local/bin/caddy```
 
-```
+```bash
 [liufuqiang@cloud liufuqiang]$ caddy -host blog.thor.today
 [sudo] password for liufuqiang:
 Activating privacy features...
@@ -126,20 +127,20 @@ https://blog.thor.today
 
 ## hugo安装
 安装方式有很多种，可以到[官方安装指导](https://gohugo.io/getting-started/installing/)了解更多安装方式，我们选择一个Linux系统的安装方式(从 官方项目的github release下载对应二进制包）：
-```
+```bash
 wget https://github.com/gohugoio/hugo/releases/download/v0.46/hugo_0.46_Linux-64bit.tar.gz
 tar xvfz hugo_0.46_Linux-64bit.tar.gz
 cp hugo /usr/local/bin/
 ```
 执行 hugo version 可以测试下是否安装成功
-```
+```bash
 Hugo Static Site Generator v0.46 linux/amd64 BuildDate: 2018-08-01T09:00:55Z
 ```
 
 ## caddy与hugo结合
 利用caddy + hugo、git插件 可以实现自动更新博客的功能。
 用我博客站的配置来介绍下吧。先看配置文件：
-```
+```bash
 https://blog.thor.today {
     tls user@xx.com
     gzip
@@ -168,7 +169,7 @@ https://blog.thor.today {
 
 ### 快捷更新git版本的方法
 传统的源码安装非常耗时，我们还是选择用yum方式来安装，如下：
-```
+```bash
 yum remove git
 yum install epel-release
 yum install https://centos6.iuscommunity.org/ius-release.rpm 

@@ -1,6 +1,8 @@
 ---
 title: "【译】Golang x-files 里的rsync介绍（并发问题的解决方案）"
 date: 2018-08-17T17:23:12+08:00
+tags: ["Go","sync","并发"]
+
 ---
 
 ## 前言

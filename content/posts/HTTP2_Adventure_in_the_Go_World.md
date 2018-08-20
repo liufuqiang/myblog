@@ -1,7 +1,7 @@
 ---
 title: "[译]Go语言世界里的HTTP2的探索"
 date: 2018-08-16T10:26:13+08:00
-draft: false
+tags: ["Go","http2","服务端推送"]
 ---
 
 #### 原文出处
@@ -15,7 +15,7 @@ Go语言的标准库HTTP默认支持HTTP/2，它有非常多的文档和非常�
 > http2包是一个底层实现，它很少被人直接拿来使用。很多使用者会通过自动使用net/http包来间接的使用它。
 
 HTTP/2是强制使用TLS(传送安全层)的。 为了能够完成需求我们需要一个私钥（private key)和一个证书（certificate)。 在Linux上，产生私钥的方法如下。运行以下命令并且按照提示执行操作即可。
-```
+```bash
 openssl req -newkey rsa:2048 -nodes -keyout server.key -x509 -days 365 -out server.crt
 ```
 这个命令会产生2个文件： server.key和server.crt
@@ -24,7 +24,7 @@ openssl req -newkey rsa:2048 -nodes -keyout server.key -x509 -days 365 -out serv
 
 现在，我们看下服务端的实现代码，我们会使用go的标准库 HTTP server， 并依赖刚刚产生的SSL文件（私钥和正式）启用TLS模式。
 
-```
+```golang
 package main
 
 import (
@@ -58,7 +58,7 @@ func handle(w http.ResponseWriter, r *http.Request) {
 我们在服务端产生的证书是“自签”的，这就意味着它不是一个知名的证书授权机构（CA）签署的，这会导致我们的客户端不信任这个证书。
 
 
-```
+```golang
 package main
 
 import (
@@ -75,18 +75,18 @@ func main() {
 ```
 让我们来运行下这个程序：
 
-```
+```bash
 $ go run h2-client.go 
 Get https://localhost:8000: x509: certificate signed by unknown authority
 ```
 在服务端的日志里，我们同样会看到这样的一个错误：
-```
+```bash
 http: TLS handshake error from [::1]:58228: remote error: tls: bad certificate
 ```
 要解决这个问题， 我们可以在客户端定制下TLS的配置。我们可以把服务端的证书文件加入到客户端的“证书池”里，这样即使这个证书不是权威的CA机构颁发的，客户端也会信任这个证书了。
 我们同样也会增加一个选项，可以通过命令行参数的方式，决定是选择HTTP/1.1协议还是HTTP/2协议。
 
-```
+```golang
 package main
 
 import (
@@ -150,14 +150,14 @@ func main() {
 }
 ```
 这一次我们得到了正确的结果：
-```
+```bash
 $ go run h2-client.go 
 Got response 200: HTTP/2.0 Hello
 ```
 在服务端的日志里我们看到了正确的日志行：```2018/08/13 16:26:18 Got connection: HTTP/2.0``` 
 
 但是当我们使用HTTP/1.1传输协议的时候会发生什么呢？
-```
+```bash
 $ go run h2-client.go -version 1
 Got response 200: HTTP/1.1 Hello
 ```
@@ -171,7 +171,7 @@ Got response 200: HTTP/1.1 Hello
 HTTP/2允许服务端推送，这个技术就是“使用给定的目标来构建一个合成的请求”。
 这个在服务端的handler里可以比较容易就可以实现：
 
-```
+```golang
 func handle(w http.ResponseWriter, r *http.Request) {
 	// 把请求协议记到log
 	log.Printf("Got connection: %s", r.Proto)
@@ -209,13 +209,13 @@ func handle(w http.ResponseWriter, r *http.Request) {
 ### 服务端推送的客户端处理方式（Consuming Server Push）
 我们再次启动服务端程序，并且测试下客户端程序。
 HTTP/1.1的客户端：
-```
+```bash
 $ go run ./h2-client.go -version 1
 Got response 200: HTTP/1.1 Hello
 ```
 
 服务端日志:
-```
+```bash
 2018/08/13 16:52:11 Got connection: HTTP/1.1
 2018/08/13 16:52:11 Handling 1st
 2018/08/13 16:52:11 Can't push to client
@@ -224,12 +224,12 @@ Got response 200: HTTP/1.1 Hello
 HTTP/1.1的客户端传输协议在http.ResonseWriter上的连接结果没有实现http.Pusher接口，这个是符合预期的。在我们服务端代码里我们是可以选择什么样的客户端类型我们去做什么事情。
 
 HTTP/2 的客服端:
-```
+```bash
 go run ./h2-client.go -version 2
 Got response 200: HTTP/2.0 Hello
 ```
 服务端日志：
-```
+```bash
 2018/08/13 16:52:15 Got connection: HTTP/2.0
 2018/08/13 16:52:15 Handling 1st
 2018/08/13 16:52:15 Failed push: feature not supported
@@ -239,7 +239,7 @@ Got response 200: HTTP/2.0 Hello
 
 > 关于go硬编码导致的go client不支持server Push的实现如下，另外到目前最新的 go1.10.3版本里依然没有解决 (src/net/http/h2_bundle.go)
 
-```
+```golang
     initialSettings := []http2Setting{
     		{ID: http2SettingEnablePush, Val: 0},
     		{ID: http2SettingInitialWindowSize, Val: http2transportDefaultStreamFlow},
@@ -255,7 +255,7 @@ Got response 200: HTTP/2.0 Hello
 
 服务端日志有比较精确的显示，即使客户端实际上就请求了 path=/ 一次，但handler 被调用了2次， 分别是 path=/ 和 path=/2nd。
 
-```
+```bash
 2018/08/13 17:41:50 Got connection: HTTP/2.0
 2018/08/13 17:41:50 Handling 1st
 2018/08/13 17:41:50 Got connection: HTTP/2.0
@@ -265,7 +265,7 @@ Got response 200: HTTP/2.0 Hello
 ### 全双工通讯
 在Go的[HTTP/2 Demo](https://http2.golang.org/)页面上有个echo的例子，它演示了客户端和服务端的全双工的通讯流程。
 我们先用cURL来测试一下：
-```
+```bash
 $ curl -i -XPUT --http2 https://http2.golang.org/ECHO -d hello
 HTTP/2 200 
 content-type: text/plain; charset=utf-8
@@ -278,7 +278,7 @@ HELLO
 
 ### 服务端实现
 一个简单版本的实现HTTP echo的handler（这个版本不实现大写的响应内容的功能）如下。它使用http.ResponseWriter里新增的http.Flusher接口。
-```
+```golang
 type flushWriter struct {
 	w io.Writer
 }
@@ -309,7 +309,7 @@ func echoCapitalHandler(w http.ResponseWriter, r *http.Request) {
 
 ### Go客户端的实现
 我尝试寻找Go客户端如何实现这个特性，发现了这个[Github issue](https://github.com/golang/go/issues/13444#issuecomment-161115822). Brad 给了一些建议如下代码所示，这里都是比较“低层”的代码实现，所以我增加了很多备注信息。
-```
+```golang
 
 const url = "https://http2.golang.org/ECHO"
 
@@ -352,7 +352,7 @@ h2conn 是一个非常小的库，它可以改进用户使用HTTP/2全双工的�
 
 比如，上边实例的代码改用h2conn来实现，是这样的：
 
-```
+```golang
 package main
 
 import (
@@ -399,7 +399,7 @@ func main() {
 }
 ```
 可以看到服务端代码简化了很多。下面的代码示例实现了同上边echo 服务一样的功能：
-```
+```golang
 func echo(w http.ResponseWriter, r *http.Request) {
 	// 接收返回的连接，有2种情况
 	// 1.Write - 发送数据到服务端
