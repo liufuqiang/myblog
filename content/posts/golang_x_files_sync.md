@@ -21,7 +21,7 @@ go语言里使用go关键字就可以轻松搞定并发的问题，它讲究的�
 ## 快速了解下sync包
 
 ### errgroup的示例
-```
+```golang
 import (
 	"fmt"
 	"io/ioutil"
@@ -65,7 +65,7 @@ func main() {
 }
 ```
 以上代码示例会并行抓取3个url，当有错误发生会报出来，结果如下：
-```
+```bash
 http://localhost:1234/sleep?sec=1
 I sleep 1 second. <nil>
 http://localhost:1234/sleep?sec=2
@@ -82,7 +82,7 @@ I sleep 6 second. <nil>
 ```
 
 模拟慢速的api的代码如下 sleep.go:
-```
+```golang
 package main
 
 import (
@@ -110,7 +110,7 @@ func Sleep(c *gin.Context) {
 ```
 
 一个并发运行的示例：
-```
+```golang
 package main
 
 import (
@@ -205,7 +205,7 @@ func main() {
 
 Action/Executor 模式出自Gang of Four的设计模式里的一种，也被叫做命令模式，是非常强大的一个设计模式。它从实际运行的方式里（Excutor)里抽象出了行为（Action),以下是这2个组件的基本接口：
 
-```
+```golang
 // 一个Action接口，带一个Execute方法
 type Action interface {
 	// Execute 负责执行任务，这个方法会用context做参数，以便可以提供取消执行的功能
@@ -232,7 +232,7 @@ Action接口类型执行具体性的任务，Executro负责把一组Action放在
 
 捕获到第一个错误后取消之后的goroutine执行，这是较为常见的处理模式。一个并行的Executor会被叠加到一起，使用一组 WaitGroups和channel来完成协调。 另一个优雅的实现方式就是使用 errgroup包来解决，如下代码：
 
-```
+```golang
 // Parallel 是一个Executor的并行实现
 type Parallel struct{}
 
@@ -256,7 +256,4 @@ func (p Parallel) execFn(ctx context.Context, a Action) func() error {
 
 ...待续...
 
-
-
-...待续...
 
