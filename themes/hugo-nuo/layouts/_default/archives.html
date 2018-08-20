@@ -8,7 +8,7 @@
     <header class="list-header offscreen">
       <h2 class="list-label">Posts List</h2>
     </header>
-    {{ range (where .Site.RegularPages "Type" "post").GroupByDate "Jan 2006" -}}
+    {{ range (where .Site.RegularPages "Type" "post").GroupByDate "2006年01月" -}}
       <h3>{{ .Key }}</h3>
       <ol>
         {{ range .Pages -}}

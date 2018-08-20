@@ -2,7 +2,6 @@
 title: "Go的闭包在并发下的问题"
 date: 2018-08-20T11:40:02+08:00
 tags: ["Go","goroutine","闭包"]
-cover: "http://p0.so.qhimgs1.com/bdr/200_200_/t0196c16e93f6a75540.jpg"
 ---
 ### 问题
 在go里如果我们使用了闭包(closures)，那么在使用并发(goroutines)编程的时候会发生一些奇怪的问题。 看下面一段代码：
