@@ -8,7 +8,7 @@ PygmentsCodeFences = true
 canonifyurls = true
 
 # Disqus Username
-disqusShortname = "disqus_shortname"
+disqusShortname = "bangbangde"
 
 # Google Analytics UA number
 #googleAnalytics = "UA-XXXXXXXX-X"
@@ -67,7 +67,7 @@ copyright = "© 2018 - 技术闲谈  Powerd by Hugo & nuo-theme"
   # douban = "douban_username"
   # bilibili = "bilibili_id_number"
   # Changyan Comments (China Only)
-  changyan = true
+  changyan = false
   changyanId = "cytM9xuce"
   changyanConf = "prod_b985ef3db2e98b59b3ff3aacc6c1aa5d"
   # Google Webmaster
