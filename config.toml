@@ -8,8 +8,7 @@ PygmentsCodeFences = true
 canonifyurls = true
 
 # Disqus Username
-disqusShortname = "bangbangde"
-
+disqusShortname = "blog.thor.toda/disqus/bangbangde"
 # Google Analytics UA number
 #googleAnalytics = "UA-XXXXXXXX-X"
 
