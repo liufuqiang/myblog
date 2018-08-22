@@ -3,6 +3,9 @@ title: "利用hugo+caddy快速搭建一个简单的博客系统"
 date: 2018-08-16T17:50:07+08:00
 tags: ["博客","hugo","caddy"]
 ---
+## 前言
+从业IT已经11年了，期间多次操持过博客站，有自己在07年用php自己租用虚拟主机搭建的博客，有在百度空间的博客（百度空间之后尽然死掉了），还有[新浪博客](http://blog.sina.com.cn/lifecometogood) ,在之后有用wordpress用租的vps搞过自建的博客，之后因为懒得备案，vps过期后换了家供应商，博客就一直没坚持下来。 现在回想下，这么多年其实有很多可以积累下来的东西，甚是可惜。亡羊补牢，这次无论如何也要把博客坚持做下去了。
+
 ## 技术选型介绍
 [hugo](https://gohugo.io/) 是一个非常简单的基于markdown生成博客的系统，是go语言开发的博客系统。
 [caddy](https://caddyserver.com/) 是一个简单易用的webserver服务，很好的支持了H2，尤其是基于[Let's Encrypt](https://letsencrypt.org/)的 自动签发证书的功能，让你用的毫无压力。
