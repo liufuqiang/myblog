@@ -29,19 +29,19 @@ func readFile1(path string) string {
 }
 ```
 
-- 
+- 使用os.Open打开文件，用原始的fp.Read方法逐行读取内容
 ```golang
 func readFile2(path string) string {
-    fi, err := os.Open(path)
+    fp, err := os.Open(path)
     if err != nil {
         panic(err)
     }
-    defer fi.Close()
+    defer fp.Close()
 
     chunks := make([]byte, 1024, 1024)
     buf := make([]byte, 1024)
     for {
-        n, err := fi.Read(buf)
+        n, err := fp.Read(buf)
         if err != nil && err != io.EOF {
             panic(err)
         }
