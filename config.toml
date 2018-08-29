@@ -39,7 +39,7 @@ copyright = "© 2018 - 技术闲谈  Powerd by Hugo & nuo-theme"
 [params]
   author = "刘付强"
   avatar = "/img/avatar.jpg"
-  seotitle = "Web开发方向的各种技术闲谈"
+  seotitle = "Web开发方向的各种技术闲谈l"
   subtitle = "积沙成塔，集腋成裘"
   description = "这里不扯无聊话题，仅用于技术积累、学习心得只用。本博客涉及技术以服务端为主，但也涵盖其他领域的知识，涉及如： Go Golang Nginx Openresty PHP C C++ Vuejs Javascript Docker kubernetes."
   paginate = 10
