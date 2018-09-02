@@ -16,12 +16,12 @@
     {{ if gt $paginator.TotalPages 1 }}
       <footer class="list-footer">
         <nav class="pagination">
-          <h3 class="offscreen">Pagination</h3>
+          <h3 class="offscreen">分页</h3>
           {{ if $paginator.HasPrev }}
-            <a class="pagination-previous" href="{{ $paginator.Prev.URL }}">← Newer Posts</a>
+            <a class="pagination-previous" href="{{ $paginator.Prev.URL }}">← 更新的文章</a>
           {{ end }}
           {{ if $paginator.HasNext }}
-            <a class="pagination-next" href="{{ $paginator.Next.URL }}">Older Posts →</a>
+            <a class="pagination-next" href="{{ $paginator.Next.URL }}">更旧的文章→</a>
           {{ end }}
         </nav>
       </footer>

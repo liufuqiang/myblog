@@ -23,7 +23,7 @@
     {{ if gt $paginator.TotalPages 1 }}
       <footer class="list-footer">
         <nav class="pagination">
-          <h3 class="offscreen">Pagination</h3>
+          <h3 class="offscreen">分页</h3>
           {{ if $paginator.HasPrev }}
             <a class="pagination-previous" href="{{ $paginator.Prev.URL }}">← 新文章</a>
           {{ end }}
