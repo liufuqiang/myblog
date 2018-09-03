@@ -91,9 +91,16 @@
 <link rel="apple-touch-icon" href="{{ "/img/touch-icon-apple.png" | relURL }}" />
 <link rel="mask-icon" href="{{ "/img/safari-pinned-tab.svg" | relURL }}" color="#5fbf5e" />
 
+
 <!-- Styles -->
 {{ if ne .Kind "home" }}
 <link rel="stylesheet" href="//cdn.bootcss.com/video.js/6.2.8/alt/video-js-cdn.min.css" />
 {{ end }}
 <link rel="stylesheet" href="{{ index .Site.Data.manifest "bundle.css" | relURL }}" />
 {{ partial "mathjax.html" . }}
+
+<script>(function(){
+  var src = (document.location.protocol == "http:") ? "http://js.passport.qihucdn.com/11.0.1.js?342f5e203fd1d616d07d03edca1cc9b3":"https://jspassport.ssl.qhimg.com/11.0.1.js?342f5e203fd1d616d07d03edca1cc9b3";
+  document.write('<script src="' + src + '" id="sozz"><\/script>');
+  })();
+  </script>
