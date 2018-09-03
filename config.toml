@@ -1,11 +1,13 @@
 baseURL = "https://bangbangde.com/"
 languageCode = "zh_CN"
-title = "技术闲谈"
+title = "web棒棒糖"
 theme = "hugo-nuo"
 
 enableRobotsTXT = true
 PygmentsCodeFences = true
 canonifyurls = true
+
+uglyURLs = true
 
 # Disqus Username
 #disqusShortname = "blog.thor.today/disqus/xxx"
@@ -33,7 +35,7 @@ copyright = "© 2018 - 技术闲谈  Powerd by Hugo & nuo-theme"
   name = "标签"
   weight = 40
   identifier = "tags"
-  url = "/tags/"
+  url = "/tags.html"
 
 # Add your own params here
 [params]
