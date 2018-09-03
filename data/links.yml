@@ -4,8 +4,14 @@
   avatar: http://p0.qhimg.com/t014e04d2c443b03b75.png
   description: 前端大神屈屈的技术博客
 
-02_milaozhu:
+02_fukun:
+  title: DigDeeply
+  link: https://fukun.org/
+  avatar: https://p.ssl.qhimg.com/t01c99064456373dc63.jpg
+  description: 360Web服务端负责人付坤的技术博客
+
+03_milaozhu:
   title: 米老朱的博客 Ritchie Pub
   link: https://laozhu.me/
   avatar: https://laozhu.me/img/avatar.jpg
-  description: Hugo-Nuo的作者
+  description: 本博客Theme Hugo-Nuo的作者
