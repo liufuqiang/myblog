@@ -106,6 +106,7 @@
   })();
   </script>
   {{ if  .Date  }}
+  <script src="//msite.baidu.com/sdk/c.js?appid=1610577168908748"></script>
   <script type="application/ld+json">
     {
         "@context": "https://ziyuan.baidu.com/contexts/cambrian.jsonld",
@@ -119,7 +120,7 @@
         {{ end }}
         {{ end }}
         ], 
-        "pubDate": "{{ .Date.Format "2006-01-02T15:04:05" }} " // 需按照yyyy-mm-ddThh:mm:ss格式编写时间，字母T不能省去
-    }
+        "pubDate": "{{ .Date.Format "2006-01-02T15:04:05" }}"  
+      }
 </script>
 {{ end }}
