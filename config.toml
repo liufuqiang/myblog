@@ -1,4 +1,4 @@
-baseURL = "https://bangbangde.com/"
+baseURL = "https://www.bangbangde.com/"
 languageCode = "zh_CN"
 title = "web棒棒糖"
 theme = "hugo-nuo"
@@ -73,10 +73,8 @@ copyright = "© 2018 - 技术闲谈  Powerd by Hugo & nuo-theme"
   changyanConf = "prod_b985ef3db2e98b59b3ff3aacc6c1aa5d"
   # Google Webmaster
   # https://www.google.com/webmasters/
-  googleSiteVerification = "_moDmnnBNVLBN1rzNxyGUGdPHE20YgbmrtzLIbxaWFc"
   # Bing Webmaster
   # https://www.bing.com/toolbox/webmaster/
-  msValidate = "22596E34341DD1D17D6022C44647E587"
   # Baidu Webmaster (China Only)
   # https://zhanzhang.baidu.com/
   # baiduSiteVerification = "MZ23SPxxfa"
