@@ -99,11 +99,16 @@
 <link rel="stylesheet" href="{{ index .Site.Data.manifest "bundle.css" | relURL }}" />
 {{ partial "mathjax.html" . }}
 
-<script>(function(){
-  var src = (document.location.protocol == "http:") ? "http://js.passport.qihucdn.com/11.0.1.js?342f5e203fd1d616d07d03edca1cc9b3":"https://jspassport.ssl.qhimg.com/11.0.1.js?342f5e203fd1d616d07d03edca1cc9b3";
-  document.write('<script src="' + src + '" id="sozz"><\/script>');
+<script>
+  var _hmt = _hmt || [];
+  (function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?6237ce103481e2586394dbd2280ff6e5";
+    var s = document.getElementsByTagName("script")[0]; 
+    s.parentNode.insertBefore(hm, s);
   })();
   </script>
+  
   {{ if  .Date  }}
   <script src="//msite.baidu.com/sdk/c.js?appid=1610577168908748"></script>
   <script type="application/ld+json">
