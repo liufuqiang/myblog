@@ -6,7 +6,7 @@ date: 2019-02-13T11:17:23+08:00
 
 我们在选择下载软件的时候，经常会遇到选择操作系统的地方，比如darwin，linux，freebsd等，那么今天介绍下当前市面上常用到的操作系统的分类情况吧。
 
-!(场景)(/images/promtheus_download.png)
+![类似场景](/images/promtheus_download.png)
 
 ## linux
 
