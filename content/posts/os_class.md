@@ -16,7 +16,7 @@ date: 2019-02-13T11:17:23+08:00
 
 Linux的发行版本可以大体分为两类，一类是商业公司维护的发行版本，一类是社区组织维护的发行版本，前者以著名的Redhat(RHEL)为代表，后者以Debian为代表。
 
-![Linux发行版](http://s5.51cto.com/wyfs02/M02/9D/E6/wKiom1mINIzA_dJqAAA-WlpJkQk751.jpg-wh_651x-s_2046512469.jpg)
+![Linux发行版](/images/wKiom1mINIzA_dJqAAA-WlpJkQk751.jpg-wh_651x-s_2046512469.jpg)
 
 Redhat，应该称为Redhat系列，包括RHEL(Redhat Enterprise Linux，也就是所谓的Redhat Advance Server，收费版本)、Fedora Core(由原来的Redhat桌面版本发展而来，免费版本)、CentOS(RHEL的社区克隆版本，免费)。Redhat应该说是在国内使用人群最多 的Linux版本，甚至有人将Redhat等同于Linux，而有些老鸟更是只用这一个版本的Linux。所以这个版本的特点就是使用人群数量大，资料非 常多，言下之意就是如果你有什么不明白的地方，很容易找到人来问，而且网上的一般Linux教程都是以Redhat为例来讲解的。Redhat系列的包管 理方式采用的是基于RPM包的YUM包管理方式，包分发方式是编译好的二进制文件。稳定性方面RHEL和CentOS的稳定性非常好，适合于服务器使用， 但是Fedora Core的稳定性较差，最好只用于桌面应用。
 
