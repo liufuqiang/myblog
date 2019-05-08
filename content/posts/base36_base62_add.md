@@ -19,7 +19,8 @@ date: 2019-05-08T18:23:15+08:00
 话不多说，直接看代码吧
 
 - 36进制的加法
-```golang
+
+```go
 package main
 
 import (
@@ -123,7 +124,7 @@ func checkInput(str string) bool {
 
 - 62进制的加法
 
-```golang
+```go
 package main
 
 import (
