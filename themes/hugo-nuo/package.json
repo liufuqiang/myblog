@@ -137,7 +137,7 @@
     "stylelint-config-standard": "18.2.0",
     "stylelint-no-unsupported-browser-features": "3.0.0",
     "stylelint-order": "0.8.1",
-    "svg-url-loader": "2.3.2",
+    "svg-url-loader": "8.0.0",
     "url-loader": "1.0.1",
     "webpack": "4.8.3",
     "webpack-cli": "2.1.3",
